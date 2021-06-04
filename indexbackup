@@ -1,0 +1,138 @@
+numbersContainer = document.querySelector('#numbers-container');
+document.querySelector('#number').innerText = "0";
+currentOperator = "";
+currentNumber = 0;
+savedNumber = 0;
+totalNumbers = [];
+reset =  false;
+
+for(let i = 1; i <= 9; i++){
+    if(i == 4){
+        let plusOperator = document.createElement('button');
+        plusOperator.classList.add('plus-button');
+        plusOperator.classList.add('operator');
+        plusOperator.style.backgroundColor = '#616161';
+        plusOperator.innerText = '+';
+        plusOperator.addEventListener('click', function(){
+            savedNumber = currentNumber;
+            currentNumber = 0;
+            currentOperator = '+';
+        })
+        numbersContainer.appendChild(plusOperator);
+    }
+    if(i == 7){
+        let minusOperator = document.createElement('button');
+        minusOperator.classList.add('subtract-button');
+        minusOperator.classList.add('operator');
+        minusOperator.style.backgroundColor = '#616161';
+        minusOperator.innerText = '-';
+        minusOperator.addEventListener('click', function(){
+            savedNumber = currentNumber;
+            currentNumber = 0;
+            currentOperator = '-';
+        })
+        numbersContainer.appendChild(minusOperator);
+    }
+
+    let button = document.createElement('button');
+    button.classList.add(i);
+    button.classList.add('num');
+    button.style.backgroundColor = '#616161';
+    button.innerText = i;
+    button.addEventListener('click', function(){
+        if(currentNumber == 0){
+        currentNumber = i
+        }else{
+            currentNumber += i.toString();
+        }
+        document.querySelector('#number').innerText = currentNumber;
+        console.log(i);
+        reset = false;
+    });
+    numbersContainer.appendChild(button);
+
+    if(i == 9){
+        let muiltiplyOperator = document.createElement('button');
+        muiltiplyOperator.classList.add('multiply-button');
+        muiltiplyOperator.classList.add('operator');
+        muiltiplyOperator.style.backgroundColor = '#616161';
+        muiltiplyOperator.innerText = '*';
+        muiltiplyOperator.addEventListener('click', function(){
+            savedNumber = currentNumber;
+            currentNumber = 0;
+            currentOperator = '*';
+        })
+        numbersContainer.appendChild(muiltiplyOperator);
+    }
+}
+
+let zero = document.createElement('button');
+zero.classList.add('0');
+zero.classList.add('zero');
+zero.style.backgroundColor = '#616161';
+zero.innerText = '0';
+zero.addEventListener('click', function(){
+    if(reset){
+        currentNumber = 0;
+        document.querySelector('#number').innerText = currentNumber;
+    }
+    
+    if(currentNumber != 0){
+        currentNumber += '0';
+        document.querySelector('#number').innerText = currentNumber;
+    }
+})
+numbersContainer.appendChild(zero);
+
+
+let dot = document.createElement('button');
+dot.classList.add('dot-button');
+dot.classList.add('num');
+dot.style.backgroundColor = '#616161';
+dot.innerText = '.';
+dot.addEventListener('click', function(){
+    if(!(currentNumber.includes('.'))){
+    currentNumber += '.';
+    document.querySelector('#number').innerText = currentNumber;
+    
+    }
+})
+numbersContainer.appendChild(dot);
+
+let equalOperator = document.createElement('button');
+equalOperator.classList.add('equal-button');
+equalOperator.classList.add('operator');
+equalOperator.style.backgroundColor = '#616161';
+equalOperator.innerText = '=';
+equalOperator.addEventListener('click', calculate);
+numbersContainer.appendChild(equalOperator);
+
+
+function calculate(){
+    if(currentOperator == '*'){
+        currentNumber = parseInt(currentNumber) * parseInt(savedNumber);
+        document.querySelector('#number').innerText = currentNumber;
+        currentOperator = "";
+    }
+
+    if(currentOperator == '/'){
+        currentNumber = parseInt(currentNumber) / parseInt(savedNumber);
+        document.querySelector('#number').innerText = currentNumber;
+        currentOperator = "";
+    }
+   
+    if(currentOperator == '+'){
+        currentNumber = parseInt(currentNumber) + parseInt(savedNumber);
+        document.querySelector('#number').innerText = currentNumber;
+        currentOperator = "";
+    }
+    
+    if(currentOperator == '-'){
+        currentNumber = parseInt(currentNumber) - parseInt(savedNumber);
+        document.querySelector('#number').innerText = currentNumber;
+        currentOperator = "";
+    }
+
+    reset = true;
+
+}
